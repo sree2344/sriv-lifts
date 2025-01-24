@@ -1,0 +1,187 @@
+---
+import Layout from '../layouts/Page.astro'
+import Container from '../components/Container.astro';
+import BlogPostsList from '../components/BlogPostsList.astro';
+
+const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
+	(a, b) => new Date(b.frontmatter.publishedAt).valueOf() - new Date(a.frontmatter.publishedAt).valueOf()
+);
+
+const seo = {
+  title: 'Sri\'s Gym Stuff',
+  description: 'A collection of things I find useful for the gym',
+}
+---
+
+<style>
+  /* Global Styles */
+  :root {
+    --primary-color: #FF6347; /* Tomato Red */
+    --secondary-color: #222222; /* Dark Gray */
+    --accent-color: #FFD700; /* Gold */
+    --bg-color: #f4f4f4;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+  }
+
+  .home-hero-text__container {
+    padding: 5vh 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 900px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .home-hero-text__container:hover {
+    transform: translateY(-10px);
+    animation: flicker 1s infinite alternate;
+  }
+
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Flicker Animation */
+  @keyframes flicker {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .blog-post {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: moveIn 0.5s ease-out, flicker 1.5s infinite alternate;
+  }
+
+  .blog-post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    animation: shake 0.3s ease-in-out;
+  }
+
+  /* Shake Animation */
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-10px);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+    75% {
+      transform: translateX(-10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  /* Move In Animation */
+  @keyframes moveIn {
+    0% {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .blog-post h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+  }
+
+  .blog-post p {
+    font-size: 1rem;
+    color: var(--secondary-color);
+  }
+
+  .blog-post .read-more {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+    display: inline-block;
+    transition: color 0.2s ease;
+  }
+
+  .blog-post .read-more:hover {
+    color: var(--primary-color);
+  }
+
+  .container {
+    padding: 2rem;
+  }
+
+  .posts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  .home-hero-text__container h1 {
+    font-size: 1.8rem; /* Reduced font size for smaller heading */
+    color: #333;
+    font-weight: 600; /* Slightly bolder */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .home-hero-text__container {
+    max-width: 80%; /* Reduce the width for a more compact design */
+    margin: 20px auto;
+  }
+</style>
+
+<Layout seo={seo}>
+  <Container>
+    <div class="home-hero-text__container">
+      <h1 class="fade-in">A Collection of Things I (Sri) Find Useful for the Gym</h1>
+    </div>
+    <div class="posts-list">
+      <BlogPostsList posts={posts}/>
+    </div>
+  </Container>
+</Layout>

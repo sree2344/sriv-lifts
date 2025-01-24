@@ -1,0 +1,57 @@
+---
+const {post} = Astro.props;
+import {formatDate} from '../utils/helpers'
+---
+
+<a class="post-preview__link fade-in" href={post.url}>
+<article class="post-preview__article">
+  <!-- Image content has been removed -->
+  <!-- Uncomment and add image content here if needed in the future -->
+  <div class="post-preview__text">
+    {post.frontmatter?.category && <p class="post-preview__category">{post.frontmatter.category}</p>}
+    <h2>{post.frontmatter.title}</h2>
+    <p class="post-preview__date">{formatDate(post.frontmatter.publishedAt)}</p>
+  </div>
+</article>
+</a>
+  
+<style>
+.post-preview__link {
+  text-decoration: none;
+}
+.post-preview__link:hover .post-preview__text {
+  transform: translateX(0.5rem);
+}
+.post-preview__article {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+.post-preview__text {
+  transition: transform 0.2s ease-in-out;
+}
+.post-preview__category {
+  width: fit-content;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--theme-surface-1);
+  border-radius: 2rem;
+  margin-bottom: 0.5rem;
+  font-size: var(--step--2);
+}
+.post-preview__text h2 {
+  font-size: var(--step-1);
+}
+.post-preview__date {
+  font-size: var(--step--1);
+  color: #666;
+}
+@media (max-width: 768px) {
+  .post-preview__text {
+    margin-top: 1rem;
+  }
+  .post-preview__link:hover .post-preview__text {
+    transform: none;
+  }
+}
+</style>
