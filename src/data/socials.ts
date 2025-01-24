@@ -2,7 +2,7 @@ export const socials = [
 
   {
     name: 'Instagram',
-    url: 'https://instagram.com',
+    url: 'https://www.instagram.com/sri.v.j/',
     icon: 'mdi:instagram'
   }
 ]
